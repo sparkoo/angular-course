@@ -10,15 +10,8 @@ import { ActivatedRoute, Data } from '@angular/router';
   providers: [ RecipeService ]
 })
 export class RecipesComponent implements OnInit {
-  currentRecipe: Recipe;
-
-  constructor(private recipeService: RecipeService,
-              private route: ActivatedRoute) { }
+  constructor() { }
 
   ngOnInit() {
-    this.route.data.subscribe(
-      (data: Data) => {
-        this.currentRecipe = this.recipeService.getRecipe(+data[ 'id' ]);
-      });
   }
 }
