@@ -8,9 +8,24 @@ export class ShoppingListService {
   ];
 
   ingredientsChanged = new Subject<Ingredient[]>();
+  startedEditing = new Subject<number>();
 
   get ingredients(): Ingredient[] {
     return this._ingredients.slice();
+  }
+
+  getIngredient(index: number): Ingredient {
+    return this.ingredients[index];
+  }
+
+  updateIngredient(index: number, newIngredient: Ingredient) {
+    this._ingredients[index] = newIngredient;
+    this.ingredientsChanged.next(this.ingredients);
+  }
+
+  removeIngredient(index: number) {
+    this._ingredients.splice(index, 1);
+    this.ingredientsChanged.next(this.ingredients);
   }
 
   addIngredient(newIngredient: Ingredient) {
