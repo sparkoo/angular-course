@@ -15,10 +15,10 @@ import { RecipeListComponent } from '../recipe-list/recipe-list.component';
 export class RecipeEditComponent implements OnInit, OnDestroy {
   private paramsSubscription: Subscription;
 
-  private id: number;
-  private editMode = false;
+  id: number;
+  editMode = false;
 
-  private recipeForm: FormGroup;
+  recipeForm: FormGroup;
 
   constructor(private route: ActivatedRoute,
               private recipeService: RecipeService,
@@ -90,5 +90,9 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
 
   onDeleteIngredient(i: number) {
     (<FormArray>this.recipeForm.get('ingredients')).removeAt(i);
+  }
+
+  getControls() {
+    return (<FormArray>this.recipeForm.get('ingredients')).controls;
   }
 }

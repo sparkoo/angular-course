@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { RecipeService } from '../recipes/recipe.service';
-import { AuthService } from '../auth/auth.service';
+import { RecipeService } from '../../recipes/recipe.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -25,5 +25,9 @@ export class HeaderComponent implements OnInit {
 
   onLogout() {
     this.authService.logout();
+  }
+
+  isAuthenticated() {
+    return this.authService.isAuthenticated();
   }
 }
