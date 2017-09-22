@@ -11,14 +11,23 @@ import { UserComponent } from './users/user/user.component';
 import { EditServerComponent } from './servers/edit-server/edit-server.component';
 import { ServerComponent } from './servers/server/server.component';
 import { ServersService } from './servers/servers.service';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { AppRoutingModule } from './app-routing.module';
-import { AuthService } from './auth.service';
-import { AuthGuard } from './auth-guard.service';
-import { CanDeactivateGuard } from './servers/edit-server/can-deactivate-guard.service';
-import { ErrorPageComponent } from './error-page/error-page.component';
-import { ServerResolver } from './servers/server/server-resolver.service';
-import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
+import { RouterModule, Routes } from '@angular/router';
+
+const appRoutes: Routes = [
+  { path: '', component: HomeComponent },
+  {
+    path: 'users', component: UsersComponent, children: [
+    { path: ':id/:name', component: UserComponent }
+  ]
+  },
+
+  {
+    path: 'servers', component: ServersComponent, children: [
+    { path: ':id/edit', component: EditServerComponent },
+    { path: ':id', component: ServerComponent }
+  ]
+  }
+];
 
 @NgModule({
   declarations: [
@@ -28,18 +37,15 @@ import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component
     ServersComponent,
     UserComponent,
     EditServerComponent,
-    ServerComponent,
-    PageNotFoundComponent,
-    ErrorPageComponent,
-    RecipeEditComponent
+    ServerComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRoutingModule
+    RouterModule.forRoot(appRoutes)
   ],
-  providers: [ServersService, AuthService, AuthGuard, CanDeactivateGuard, ServerResolver],
+  providers: [ServersService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
