@@ -1,10 +1,11 @@
 import { Recipe } from './recipe.model';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingListService } from '../shopping-list/shopping-list.service';
 import { Subject } from 'rxjs/Subject';
-import 'rxjs/rx';
+import 'rxjs/Rx';
 import { Http, Response } from '@angular/http';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class RecipeService {
@@ -14,7 +15,8 @@ export class RecipeService {
 
 
   constructor(private shoppingListService: ShoppingListService,
-              private http: Http) {
+              private http: Http,
+              private authService: AuthService) {
   }
 
   private _recipes: Recipe[] = [
@@ -55,12 +57,12 @@ export class RecipeService {
   }
 
   saveRecipes() {
-    this.http.put(this.recipesURL, this.recipes)
+    this.http.put(this.recipesURL, this.recipes, { params: { auth: this.authService.getToken() } })
       .subscribe((response) => console.log(response));
   }
 
   fetchRecipes() {
-    this.http.get(this.recipesURL)
+    this.http.get(this.recipesURL, { params: { auth: this.authService.getToken() } })
       .map((response: Response) => response.json())
       .subscribe((response: Recipe[]) => {
         this._recipes = response;
