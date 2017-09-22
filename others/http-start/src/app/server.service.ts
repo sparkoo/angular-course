@@ -1,0 +1,4 @@
+@Injectible
+export class ServerService {
+
+}
