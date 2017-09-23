@@ -4,8 +4,9 @@ import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingListService } from '../shopping-list/shopping-list.service';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/Rx';
-import { Http, Response } from '@angular/http';
+import { Response } from '@angular/http';
 import { AuthService } from '../auth/auth.service';
+import { HttpClient, HttpParams, HttpRequest } from '@angular/common/http';
 
 @Injectable()
 export class RecipeService {
@@ -15,7 +16,7 @@ export class RecipeService {
 
 
   constructor(private shoppingListService: ShoppingListService,
-              private http: Http,
+              private httpClient: HttpClient,
               private authService: AuthService) {
   }
 
@@ -57,15 +58,19 @@ export class RecipeService {
   }
 
   saveRecipes() {
-    this.http.put(this.recipesURL, this.recipes, { params: { auth: this.authService.getToken() } })
+    // this.httpClient.put(this.recipesURL, this.recipes, { params: new HttpParams().set('auth', this.authService.getToken()) })
+    //   .subscribe((response) => console.log(response));
+
+    const req = new HttpRequest('PUT', this.recipesURL, this.recipes,
+      { reportProgress: true });
+    this.httpClient.request(req)
       .subscribe((response) => console.log(response));
   }
 
   fetchRecipes() {
-    this.http.get(this.recipesURL, { params: { auth: this.authService.getToken() } })
-      .map((response: Response) => response.json())
-      .subscribe((response: Recipe[]) => {
-        this._recipes = response;
+    this.httpClient.get<Recipe[]>(this.recipesURL)
+      .subscribe((recipes) => {
+        this._recipes = recipes;
         this.recipesChanged.next(this.recipes);
       });
   }
