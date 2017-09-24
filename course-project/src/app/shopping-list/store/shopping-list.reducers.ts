@@ -4,16 +4,12 @@ import {
   UPDATE_INGREDIENT
 } from './shopping-list.actions';
 
-export interface AppState {
-  shoppingList: State;
-}
-
-export interface State {
+export interface ShoppingListState {
   ingredients: Ingredient[];
   editedIngredientIndex: number;
 }
 
-const initialState: State = {
+const initialState: ShoppingListState = {
   ingredients: [
     new Ingredient('Apples', 5),
     new Ingredient('Tomatoes', 3)

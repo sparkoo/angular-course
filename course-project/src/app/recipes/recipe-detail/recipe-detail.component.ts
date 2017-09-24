@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipe.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Ingredient } from '../../shared/ingredient.model';
 import { Store } from '@ngrx/store';
 import { AddIngredients } from '../../shopping-list/store/shopping-list.actions';
-import { AppState } from '../../shopping-list/store/shopping-list.reducers';
+import { AppState } from '../../store/app.reducers';
 
 @Component({
   selector: 'app-recipe-detail',
