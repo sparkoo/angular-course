@@ -1,12 +1,9 @@
 import { Recipe } from './recipe.model';
 import { Injectable } from '@angular/core';
 import { Ingredient } from '../shared/ingredient.model';
-import { ShoppingListService } from '../shopping-list/shopping-list.service';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/Rx';
-import { Response } from '@angular/http';
-import { AuthService } from '../auth/auth.service';
-import { HttpClient, HttpParams, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpRequest } from '@angular/common/http';
 
 @Injectable()
 export class RecipeService {
@@ -14,26 +11,18 @@ export class RecipeService {
 
   recipesChanged = new Subject<Recipe[]>();
 
-
-  constructor(private shoppingListService: ShoppingListService,
-              private httpClient: HttpClient,
-              private authService: AuthService) {
-  }
+  constructor(private httpClient: HttpClient) {}
 
   private _recipes: Recipe[] = [
-    // new Recipe('A Test Recipe', 'This is simply a test',
-    //   'http://www.seriouseats.com/images/2015/09/20150914-pressure-cooker-recipes-roundup-09.jpg',
-    //   [new Ingredient('salt', 3), new Ingredient('bread', 1)]),
-    // new Recipe('Spaghetti', 'Bla bla spagety',
-    //   'http://img.blesk.cz/img/1/full/2170551-img-amatriciana-spagety-testoviny-omacka-rajcata-bazalka.jpg', [])
+    new Recipe('A Test Recipe', 'This is simply a test',
+      'http://www.seriouseats.com/images/2015/09/20150914-pressure-cooker-recipes-roundup-09.jpg',
+      [new Ingredient('salt', 3), new Ingredient('bread', 1)]),
+    new Recipe('Spaghetti', 'Bla bla spagety',
+      'http://img.blesk.cz/img/1/full/2170551-img-amatriciana-spagety-testoviny-omacka-rajcata-bazalka.jpg', [])
   ];
 
   get recipes(): Recipe[] {
     return this._recipes.slice();
-  }
-
-  addIngredientsToShoppingList(ingredients: Ingredient[]) {
-    this.shoppingListService.addIngredients(ingredients);
   }
 
   getRecipe(id: number) {
@@ -58,9 +47,6 @@ export class RecipeService {
   }
 
   saveRecipes() {
-    // this.httpClient.put(this.recipesURL, this.recipes, { params: new HttpParams().set('auth', this.authService.getToken()) })
-    //   .subscribe((response) => console.log(response));
-
     const req = new HttpRequest('PUT', this.recipesURL, this.recipes,
       { reportProgress: true });
     this.httpClient.request(req)
