@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { RecipeService } from '../../recipes/recipe.service';
-import { AuthService } from '../../auth/auth.service';
 import { AppState } from '../../store/app.reducers';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { AuthState } from '../../auth/store/auth.reducers';
+import { SignOut } from '../../auth/store/auth.actions';
 
 @Component({
   selector: 'app-header',
@@ -15,7 +15,6 @@ export class HeaderComponent implements OnInit {
   authState: Observable<AuthState>;
 
   constructor(private recipeService: RecipeService,
-              private authService: AuthService,
               private store: Store<AppState>) {
   }
 
@@ -32,6 +31,6 @@ export class HeaderComponent implements OnInit {
   }
 
   onLogout() {
-    this.authService.logout();
+    this.store.dispatch(new SignOut());
   }
 }
