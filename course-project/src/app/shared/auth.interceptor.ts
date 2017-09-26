@@ -1,5 +1,7 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpParams, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/switchMap';
 import { Injectable } from '@angular/core';
 import { AppState } from '../store/app.reducers';
 import { Store } from '@ngrx/store';

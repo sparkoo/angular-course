@@ -4,6 +4,7 @@ import { SET_TOKEN, SIGN_IN, SIGN_OUT, SIGN_UP, TRY_SIGN_IN, TRY_SIGN_UP, TrySig
 import { fromPromise } from 'rxjs/observable/fromPromise';
 import * as firebase from 'firebase';
 import { Router } from '@angular/router';
+import 'rxjs/add/operator/mergeMap';
 
 @Injectable()
 export class AuthEffects {

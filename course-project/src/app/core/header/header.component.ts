@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { RecipeService } from '../../recipes/recipe.service';
 import { AppState } from '../../store/app.reducers';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { AuthState } from '../../auth/store/auth.reducers';
 import { SignOut } from '../../auth/store/auth.actions';
+import { FetchRecipes, StoreRecipes } from '../../recipes/store/recipe.actions';
 
 @Component({
   selector: 'app-header',
@@ -14,8 +14,7 @@ import { SignOut } from '../../auth/store/auth.actions';
 export class HeaderComponent implements OnInit {
   authState: Observable<AuthState>;
 
-  constructor(private recipeService: RecipeService,
-              private store: Store<AppState>) {
+  constructor(private store: Store<AppState>) {
   }
 
   ngOnInit() {
@@ -23,11 +22,11 @@ export class HeaderComponent implements OnInit {
   }
 
   onSave() {
-    this.recipeService.saveRecipes();
+    this.store.dispatch(new StoreRecipes());
   }
 
   onFetch() {
-    this.recipeService.fetchRecipes();
+    this.store.dispatch(new FetchRecipes());
   }
 
   onLogout() {
